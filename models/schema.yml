@@ -1,0 +1,53 @@
+version: 1
+
+models:
+  - name: dim_listings
+    columns:
+      - name: listing_id
+        tests:
+          - not_null
+          - unique:
+              config:
+                severity: warn
+                error_if: ">=5"
+                warn_if:  ">=2"
+      - name: price
+        tests:
+          - positive_value
+      - name: listing_name
+        tests:
+          - string_not_empty
+  
+  - name: dim_hosts
+    columns:
+      - name: host_id
+        tests:
+          - not_null
+          - unique
+      - name: host_name
+        tests:
+          - string_not_empty
+
+  - name: dim_listing_w_hosts
+    columns:
+      - name: host_id
+        tests:
+          - relationships: 
+              to: ref('dim_hosts')
+              field: host_id
+
+      - name: minimum_nights
+        tests:
+          - positive_value
+      
+      - name: room_type
+        tests:
+          - accepted_values:
+              values: ['Shared room',
+                      'Private room',
+                      'Vila',
+                      'Hotel room',
+                      'Entire home/apt',
+                      'Entire Home',
+                      'Private room 123'
+                      ]

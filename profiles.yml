@@ -1,0 +1,23 @@
+dbt_training_nov_2025:
+  outputs:
+    dev:
+      account: IBASILQ-ZG60882
+      database: DEV
+      password: Ankur@12345678
+      role: TRANSFORM
+      schema: BRONZE_AIRBNB
+      threads: 1
+      type: snowflake
+      user: asahu
+      warehouse: COMPUTE_WH
+    uat:
+      account: IBASILQ-ZG60882
+      database: uat
+      password: dbtPassword123
+      role: TRANSFORM
+      schema: BRONZE_AIRBNB
+      threads: 1
+      type: snowflake
+      user: dbt
+      warehouse: COMPUTE_WH
+  target: dev
