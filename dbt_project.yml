@@ -1,9 +1,9 @@
 
-name: 'dbt_training_nov_2025'
+name: 'dbt_project_sd'
 version: '1.0.0'
 
 
-profile: 'dbt_training_nov_2025'
+profile: 'dbt_project_sd'
 
 
 model-paths: ["models"]
@@ -14,7 +14,7 @@ clean-targets:
   - "target"
 
 models:
-  dbt_training_nov_2025:
+  "dbt_project_sd":
     silver_airbnb:
       +schema: 'silver_airbnb'
       +materialized: view

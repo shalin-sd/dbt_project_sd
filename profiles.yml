@@ -1,17 +1,17 @@
-dbt_training_nov_2025:
+'dbt_project_sd':
   outputs:
     dev:
-      account: IBASILQ-ZG60882
+      account: FJVTCIY-NC47989
       database: DEV
-      password: Ankur@12345678
+      password: $HALEENdashora@448!se
       role: TRANSFORM
       schema: BRONZE_AIRBNB
       threads: 1
       type: snowflake
-      user: asahu
+      user: SHALIN001
       warehouse: COMPUTE_WH
     uat:
-      account: IBASILQ-ZG60882
+      account: FJVTCIY-NC47989
       database: uat
       password: dbtPassword123
       role: TRANSFORM
