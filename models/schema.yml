@@ -2,8 +2,10 @@ version: 1
 
 models:
   - name: dim_listings
+    description: Table which contains Airbnb listings in Berlin
     columns:
       - name: listing_id
+        description: Primary Key for dim_listings
         tests:
           - not_null
           - unique:
@@ -12,15 +14,29 @@ models:
                 error_if: ">=5"
                 warn_if:  ">=2"
       - name: price
+        description: price to book that listing
         tests:
           - positive_value
+          - dbt_expectations.expect_column_quantile_values_to_be_between:
+              quantile: .95
+              min_value: 50
+              max_value: 200
+          - dbt_expectations.expect_column_max_to_be_between:
+              max_value: 8000
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: number
       - name: listing_name
         tests:
           - string_not_empty
   
   - name: dim_hosts
+    description: contains all hosts having airbnb propoerty in Berlin
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+              compare_model: source('airbnb','hosts')
     columns:
       - name: host_id
+        description: The primary key of table.
         tests:
           - not_null
           - unique
@@ -29,14 +45,17 @@ models:
           - string_not_empty
 
   - name: dim_listing_w_hosts
+    description: this containts unique listings w hosts
     columns:
       - name: host_id
+        description: The host's id. References the dim_hosts
         tests:
           - relationships: 
               to: ref('dim_hosts')
               field: host_id
 
       - name: minimum_nights
+        description: '{{doc("dim_listing_minimum_nights")}}'
         tests:
           - positive_value
       
@@ -48,6 +67,9 @@ models:
                       'Vila',
                       'Hotel room',
                       'Entire home/apt',
-                      'Entire Home',
-                      'Private room 123'
+                      'Entire Home'
                       ]
+          - dbt_expectations.expect_column_distinct_count_to_equal:
+              value: 6
+              config:
+                severity: warn

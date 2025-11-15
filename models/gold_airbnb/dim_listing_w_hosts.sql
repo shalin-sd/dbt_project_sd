@@ -9,5 +9,7 @@ SELECT
     h.is_superhost as host_is_superhost,
     l.created_at,
     GREATEST(l.updated_at, h.updated_at) as updated_at
-FROM {{ref('dim_listings')}} l
+FROM ( 
+{{dbt_utils.deduplicate(ref('dim_listings'),'listing_id','updated_at')}} 
+)l
 LEFT JOIN {{ref('dim_hosts')}}  h ON (h.host_id = l.host_id)

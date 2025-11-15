@@ -1,5 +1,6 @@
-
-
+{# config(
+    post_hook = "{{ auto_doc_cortex(this) }}"
+) #}
 SELECT
     a.host_id,
     NVL( a.host_name, 'Anonymous') AS host_name,

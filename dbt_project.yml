@@ -13,8 +13,12 @@ snapshot-paths: ["snapshots"]
 clean-targets:
   - "target"
 
+on-run-start:
+  -  "CREATE TABLE IF NOT EXISTS {{ target.schema }}.audit_log ( model_name STRING, run_timestamp TIMESTAMP )"
 models:
   "dbt_project_sd":
+    +post-hook:
+        - "INSERT INTO {{ target.schema }}.audit_log VALUES ('{{ this }}', CURRENT_TIMESTAMP)"
     silver_airbnb:
       +schema: 'silver_airbnb'
       +materialized: view
@@ -25,3 +29,7 @@ models:
       +schema: 'platinum_airbnb'
       +materialized: view
     
+data_tests:
+  +store_failures: true
+  
+target: "{{env_var('DBT_TARGET')}}"

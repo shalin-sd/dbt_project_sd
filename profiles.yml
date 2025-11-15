@@ -1,6 +1,6 @@
 'dbt_project_sd':
   outputs:
-    dev:
+    DEV:
       account: FJVTCIY-NC47989
       database: DEV
       password: $HALEENdashora@448!se
@@ -10,7 +10,7 @@
       type: snowflake
       user: SHALIN001
       warehouse: COMPUTE_WH
-    uat:
+    UAT:
       account: FJVTCIY-NC47989
       database: uat
       password: dbtPassword123
@@ -20,4 +20,14 @@
       type: snowflake
       user: dbt
       warehouse: COMPUTE_WH
-  target: dev
+    PROD:
+      account: FJVTCIY-NC47989
+      database: uat
+      password: dbtPassword123
+      role: TRANSFORM
+      schema: BRONZE_AIRBNB
+      threads: 1
+      type: snowflake
+      user: dbt
+      warehouse: COMPUTE_WH
+  target: "{{env_var('DBT_TARGET')}}"

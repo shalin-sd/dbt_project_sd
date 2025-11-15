@@ -1,3 +1,10 @@
+{#
+  config(
+    post_hook = "{{ auto_doc_cortex(this) }}",
+    tags = 'sales'
+  )
+#}
+
 SELECT 
   a.listing_id,
   a.listing_name,

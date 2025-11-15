@@ -1,3 +1,6 @@
-select length(review_text), * 
+{{config
+(severity = "warn")
+}}
+select length(nvl(review_text,'')) as length_of_column, * 
 from {{ref('fact_reviews')}}
-where  length(review_text) <4
+where  length(nvl(review_text,'')) <4
